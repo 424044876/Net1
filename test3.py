@@ -1,0 +1,1 @@
+import tensorflow as tfv = tf.constant([[1, 2, 3], [4, 5, 6]], dtype=tf.float32)with tf.Session() as sess:    print tf.clip_by_value(v, 2.5, 4.5).eval()
