@@ -1,14 +1,18 @@
 import tensorflow as tf
+import numpy as np
+import os
 from tensorflow.examples.tutorials.mnist import input_data
 
 DATA_DIR = 'mnist'
 NUM_STEPS = 1000
 MINIBATCH_SIZE = 100
+path = 'moudel'
 
 data = input_data.read_data_sets(DATA_DIR, one_hot=True)
 
 x = tf.placeholder(tf.float32, [None, 784])
 W = tf.Variable(tf.zeros([784, 10]))
+
 
 y_true = tf.placeholder(tf.float32, [None, 10])
 y_pred = tf.matmul(x, W)
@@ -29,5 +33,6 @@ with tf.Session() as sess:
         sess.run(gd_step, feed_dict={x: batch_xs, y_true: batch_ys})
 
     ans = sess.run(accuracy, feed_dict={x: data.test.images, y_true: data.test.labels})
-
+    weights = sess.run(W)
+    np.savez(os.path.join(path, 'weights'), weights)
 print "Accuracy: {:.4}%" .format(ans*100)
